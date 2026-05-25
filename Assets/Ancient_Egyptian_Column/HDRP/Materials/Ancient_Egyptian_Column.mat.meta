@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3d9acfaeee4661140bb5023f9d58b81d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 270524
+  packageName: Ancient_Egyptian_Column
+  packageVersion: 1.0
+  assetPath: Assets/Ancient_Egyptian_Column/HDRP/Materials/Ancient_Egyptian_Column.mat
+  uploadId: 809430

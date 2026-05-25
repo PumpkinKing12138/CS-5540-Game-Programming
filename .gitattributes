@@ -1,0 +1,3 @@
+Assets/MaleFigure/Materials/MaleFigure_Albedo.png filter=lfs diff=lfs merge=lfs -text
+Assets/MaleFigure/Materials/MaleFigure_Normal.png filter=lfs diff=lfs merge=lfs -text
+Assets/MaleFigure/Materials/MaleFigure_AO.png filter=lfs diff=lfs merge=lfs -text
