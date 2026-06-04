@@ -84,30 +84,29 @@ public class MummyEnemy : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        DamagePlayer(other);
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        DamagePlayer(other);
+    }
+
+    private void DamagePlayer(Collider other)
+    {
         if (other.CompareTag("Player"))
         {
-            ResetPlayer(other.gameObject);
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(1);
+            }
 
             if (levelManager != null)
             {
                 levelManager.PlayerCaughtByMummy();
             }
-        }
-    }
-
-    private void ResetPlayer(GameObject playerObject)
-    {
-        if (playerStartPoint != null)
-        {
-            playerObject.transform.position = playerStartPoint.position;
-        }
-
-        Rigidbody rb = playerObject.GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
         }
     }
 }

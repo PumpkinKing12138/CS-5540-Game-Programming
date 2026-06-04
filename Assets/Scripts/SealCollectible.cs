@@ -27,4 +27,10 @@ public class SealCollectible : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    public void ResetSeal()
+    {
+        collected = false;
+        gameObject.SetActive(true);
+    }
 }

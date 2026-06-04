@@ -2,24 +2,31 @@ using UnityEngine;
 
 public class TrapTile : MonoBehaviour
 {
-    public Transform playerStartPoint;
     public LevelManager levelManager;
 
     void OnTriggerEnter(Collider other)
     {
+        DamagePlayer(other);
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        DamagePlayer(other);
+    }
+
+    private void DamagePlayer(Collider other)
+    {
         if (other.CompareTag("Player"))
         {
-            if (playerStartPoint != null)
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
             {
-                other.transform.position = playerStartPoint.position;
+                playerHealth.TakeDamage(1);
             }
-
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-
-            if (rb != null)
+            else
             {
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
+                Debug.LogWarning("Player does not have PlayerHealth script.");
             }
 
             if (levelManager != null)

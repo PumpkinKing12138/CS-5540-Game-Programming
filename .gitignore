@@ -23,4 +23,5 @@
 *.VC.db
 
 .DS_Store
-Thumbs.db
+Thumbs.dbAssets/_Recovery/
+Assets/_Recovery.meta
