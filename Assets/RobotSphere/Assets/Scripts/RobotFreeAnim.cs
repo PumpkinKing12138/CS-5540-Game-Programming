@@ -46,8 +46,9 @@ public class RobotFreeAnim : MonoBehaviour {
 			rot[1] += rotSpeed * Time.fixedDeltaTime;
 		}
 
+	
 		// Roll
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.E))
 		{
 			if (anim.GetBool("Roll_Anim"))
 			{

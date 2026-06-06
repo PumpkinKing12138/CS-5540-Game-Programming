@@ -1,38 +1,99 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(CharacterController))]
 public class ThirdPersonController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public float speed = 10f;
+    public float speed = 8f;
+    public float ballSpeedMultiplier = 3f;
+
+    public float robotJumpHeight = 0.8f;
+    public float ballJumpHeight = 0.3f;
+
+    public float transformLockTime = 0.5f;
+
     public float rotationSpeed = 1f;
     public float smoothSpeed = 0.1f;
-    public float jumpHeight = 0.4f;
     public float gravity = 9.81f;
     public float airControl = 10f;
     public Transform cameraTransform;
+
+    public TrailRenderer ballTrail;
 
     Vector3 input;
     Vector3 moveDir;
     CharacterController controller;
 
     float currentVelocity;
+    float transformLockTimer = 0f;
     int animState = 0;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private RobotFreeAnim robotAnim;
+    private Animator robotAnimator;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
+
         if (!cameraTransform)
+        {
             cameraTransform = Camera.main.transform;
+        }
+
+        robotAnim = GetComponentInChildren<RobotFreeAnim>();
+
+        if (robotAnim != null)
+        {
+            robotAnimator = robotAnim.GetComponent<Animator>();
+        }
+
+        if (ballTrail == null)
+        {
+            ballTrail = GetComponentInChildren<TrailRenderer>();
+        }
+
+        if (ballTrail != null)
+        {
+            ballTrail.emitting = false;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            transformLockTimer = transformLockTime;
+        }
+
+        if (transformLockTimer > 0f)
+        {
+            transformLockTimer -= Time.deltaTime;
+
+            input = Vector3.zero;
+            moveDir.x = 0f;
+            moveDir.z = 0f;
+
+            if (controller.isGrounded)
+            {
+                moveDir.y = 0f;
+            }
+            else
+            {
+                moveDir.y -= gravity * Time.deltaTime;
+            }
+
+            controller.Move(moveDir * Time.deltaTime);
+
+            if (ballTrail != null)
+            {
+                ballTrail.emitting = false;
+            }
+
+            return;
+        }
+
         float moveH = Input.GetAxis("Horizontal");
         float moveV = Input.GetAxis("Vertical");
-        
+
         input = new Vector3(moveH, 0f, moveV);
         input.Normalize();
 
@@ -40,6 +101,7 @@ public class ThirdPersonController : MonoBehaviour
         {
             moveDir = input;
             animState = 0;
+
             if (input.magnitude >= 1.0f)
             {
                 animState = 1;
@@ -63,7 +125,14 @@ public class ThirdPersonController : MonoBehaviour
 
             if (Input.GetButton("Jump"))
             {
-                moveDir.y = Mathf.Sqrt(2 * jumpHeight * gravity);
+                float currentJumpHeight = robotJumpHeight;
+
+                if (IsBallForm())
+                {
+                    currentJumpHeight = ballJumpHeight;
+                }
+
+                moveDir.y = Mathf.Sqrt(2 * currentJumpHeight * gravity);
                 animState = 2;
             }
             else
@@ -75,8 +144,42 @@ public class ThirdPersonController : MonoBehaviour
         {
             moveDir.y -= gravity * Time.deltaTime;
         }
-        
-        //Debug.Log(moveDir.x + " " + moveDir.y + " " + moveDir.z);
-        controller.Move(moveDir * speed * Time.deltaTime);
+
+        float currentSpeed = speed;
+
+        if (IsBallForm())
+        {
+            currentSpeed = speed * ballSpeedMultiplier;
+        }
+
+        Vector3 horizontalMove = new Vector3(moveDir.x, 0f, moveDir.z) * currentSpeed;
+        Vector3 verticalMove = new Vector3(0f, moveDir.y, 0f);
+
+        controller.Move((horizontalMove + verticalMove) * Time.deltaTime);
+
+        UpdateBallTrail();
+    }
+
+    bool IsBallForm()
+    {
+        if (robotAnimator == null)
+        {
+            return false;
+        }
+
+        return robotAnimator.GetBool("Roll_Anim");
+    }
+
+    void UpdateBallTrail()
+    {
+        if (ballTrail == null)
+        {
+            return;
+        }
+
+        bool isMoving = input.magnitude > 0.1f;
+        bool shouldShowTrail = IsBallForm() && isMoving;
+
+        ballTrail.emitting = shouldShowTrail;
     }
 }
