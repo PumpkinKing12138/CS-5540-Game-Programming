@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +6,7 @@ public class LevelManager : MonoBehaviour
 {
     public int totalSeals = 3;
 
+    public PharaohsHeartGame pharaohsHeartGame;
     public GameObject pharaohHeart;
     public GameObject portal;
     public GameMessageUI messageUI;
@@ -89,9 +91,13 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
+        if (!pharaohsHeartGame.isGameFinished)
+            pharaohsHeartGame.PauseGame();
+
         if (!portalOpened)
         {
-            OpenPortal();
+            if (pharaohsHeartGame.isGameFinished)
+                OpenPortal();
         }
         else
         {
