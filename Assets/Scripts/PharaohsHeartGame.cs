@@ -11,20 +11,19 @@ public class PharaohsHeartGame : MonoBehaviour
     public Button[] cardButtons;
     public int[] cardNumbers;
 
-    bool isGamePaused = false;
+    [Header("Mummy Escape Phase")]
+    public LevelManager levelManager;
+    public float mummyDelayAfterGameFinished = 3f;
+
+    private bool isGamePaused = false;
     private TextMeshProUGUI[] cardTexts;
     private bool[] isMatched;
     private bool[] isRevealed;
 
     private int firstCardIndex = -1;
     private bool isChecking = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private bool mummyPhaseStarted = false;
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F))
@@ -52,6 +51,7 @@ public class PharaohsHeartGame : MonoBehaviour
         isGamePaused = true;
         Time.timeScale = 0f;
         pauseMenuPanel.SetActive(true);
+
         if (!isGameFinished)
         {
             winText.SetActive(false);
@@ -78,6 +78,7 @@ public class PharaohsHeartGame : MonoBehaviour
         firstCardIndex = -1;
         isChecking = false;
         isGameFinished = false;
+        mummyPhaseStarted = false;
 
         for (int i = 0; i < cardButtons.Length; i++)
         {
@@ -87,7 +88,6 @@ public class PharaohsHeartGame : MonoBehaviour
             cardButtons[i].interactable = true;
 
             cardTexts[i] = cardButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-
             cardTexts[i].text = "";
 
             isMatched[i] = false;
@@ -153,8 +153,6 @@ public class PharaohsHeartGame : MonoBehaviour
     {
         isChecking = true;
 
-        // 因为你在 PauseGame 里设置了 Time.timeScale = 0
-        // 所以这里必须用 WaitForSecondsRealtime
         yield return new WaitForSecondsRealtime(0.6f);
 
         HideCard(firstIndex);
@@ -177,5 +175,25 @@ public class PharaohsHeartGame : MonoBehaviour
         winText.SetActive(true);
 
         Debug.Log("Pharaoh's Heart Game Finished!");
+
+        if (!mummyPhaseStarted)
+        {
+            mummyPhaseStarted = true;
+            StartCoroutine(StartMummyPhaseAfterDelay());
+        }
+    }
+
+    IEnumerator StartMummyPhaseAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(mummyDelayAfterGameFinished);
+
+        if (levelManager != null)
+        {
+            levelManager.StartMummyEscapePhase();
+        }
+        else
+        {
+            Debug.Log("LevelManager is not assigned on PharaohsHeartGame.");
+        }
     }
 }

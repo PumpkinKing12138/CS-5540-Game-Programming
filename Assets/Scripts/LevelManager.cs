@@ -1,4 +1,4 @@
-using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +11,17 @@ public class LevelManager : MonoBehaviour
     public GameObject portal;
     public GameMessageUI messageUI;
 
+    [Header("Mummy Escape Phase")]
+    public MummyEnemy[] mummies;
+    public bool autoFindMummiesIfEmpty = true;
+
+    [Header("BGM Settings")]
+    public AudioSource bgmAudioSource;
+    public AudioClip normalBGM;
+    public AudioClip mummyTransformBGM;
+    public AudioClip escapeBGM;
+    public float mummyTransformBGMDuration = 3f;
+
     [Header("Game Over UI")]
     public GameObject gameOverPanel;
 
@@ -18,6 +29,7 @@ public class LevelManager : MonoBehaviour
     private bool heartUnlocked = false;
     private bool portalOpened = false;
     private bool isGameOver = false;
+    private bool mummyEscapePhaseStarted = false;
 
     void Start()
     {
@@ -27,6 +39,7 @@ public class LevelManager : MonoBehaviour
         collectedSeals = 0;
         heartUnlocked = false;
         portalOpened = false;
+        mummyEscapePhaseStarted = false;
 
         if (portal != null)
         {
@@ -46,6 +59,8 @@ public class LevelManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        PlayBGM(normalBGM, true);
 
         ShowMessage("Collect 3 Security Seals to unlock Pharaoh's Heart.");
     }
@@ -75,7 +90,37 @@ public class LevelManager : MonoBehaviour
         }
 
         heartUnlocked = true;
-        ShowMessage("All Seals collected! Pharaoh's Heart is now unlocked.");
+        ShowMessage("All Seals collected! Break the glass case to reach Pharaoh's Heart.");
+    }
+
+    public bool IsHeartUnlocked()
+    {
+        return heartUnlocked;
+    }
+
+    public bool IsGameOver()
+    {
+        return isGameOver;
+    }
+
+    public bool IsPortalOpened()
+    {
+        return portalOpened;
+    }
+
+    public void ShowNeedSealsMessage()
+    {
+        ShowMessage("Pharaoh's Heart is locked. Collect all 3 Security Seals first.");
+    }
+
+    public void ShowNeedGlassMessage()
+    {
+        ShowMessage("Break the glass case first.");
+    }
+
+    public void ShowHeartDelayMessage()
+    {
+        ShowMessage("The glass just broke. Wait 1 second before touching Pharaoh's Heart.");
     }
 
     public void TryActivateHeart()
@@ -87,22 +132,26 @@ public class LevelManager : MonoBehaviour
 
         if (!heartUnlocked)
         {
-            ShowMessage("Pharaoh's Heart is locked. Collect all 3 Security Seals first.");
+            ShowNeedSealsMessage();
             return;
         }
 
-        if (!pharaohsHeartGame.isGameFinished)
-            pharaohsHeartGame.PauseGame();
-
-        if (!portalOpened)
-        {
-            if (pharaohsHeartGame.isGameFinished)
-                OpenPortal();
-        }
-        else
+        if (portalOpened)
         {
             ShowMessage("The portal is already open. Enter it to complete the level.");
+            return;
         }
+
+        if (pharaohsHeartGame != null)
+        {
+            if (!pharaohsHeartGame.isGameFinished)
+            {
+                pharaohsHeartGame.PauseGame();
+                return;
+            }
+        }
+
+        OpenPortal();
     }
 
     private void OpenPortal()
@@ -122,9 +171,56 @@ public class LevelManager : MonoBehaviour
         ShowMessage("Pharaoh's Heart activated! The exit portal is open.");
     }
 
-    public bool IsPortalOpened()
+    public void StartMummyEscapePhase()
     {
-        return portalOpened;
+        if (mummyEscapePhaseStarted)
+        {
+            return;
+        }
+
+        mummyEscapePhaseStarted = true;
+
+        StartCoroutine(MummyEscapePhaseRoutine());
+    }
+
+    IEnumerator MummyEscapePhaseRoutine()
+    {
+        ShowMessage("Mummy is coming for you!");
+
+        PlayBGM(mummyTransformBGM, true);
+
+        if ((mummies == null || mummies.Length == 0) && autoFindMummiesIfEmpty)
+        {
+            mummies = FindObjectsOfType<MummyEnemy>();
+        }
+
+        if (mummies != null)
+        {
+            foreach (MummyEnemy mummy in mummies)
+            {
+                if (mummy != null)
+                {
+                    mummy.EnrageMummy();
+                }
+            }
+        }
+
+        yield return new WaitForSecondsRealtime(mummyTransformBGMDuration);
+
+        PlayBGM(escapeBGM, true);
+    }
+
+    private void PlayBGM(AudioClip clip, bool loop)
+    {
+        if (bgmAudioSource == null || clip == null)
+        {
+            return;
+        }
+
+        bgmAudioSource.Stop();
+        bgmAudioSource.clip = clip;
+        bgmAudioSource.loop = loop;
+        bgmAudioSource.Play();
     }
 
     public void PlayerCaughtByMummy()

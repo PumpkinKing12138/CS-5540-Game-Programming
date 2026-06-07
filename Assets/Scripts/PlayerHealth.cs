@@ -16,6 +16,11 @@ public class PlayerHealth : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
+    [Header("Damage Sound")]
+    public AudioSource audioSource;
+    public AudioClip hurtSound;
+    public float hurtSoundVolume = 1f;
+
     [Header("Invincible")]
     public float invincibleTime = 3f;
     public float blinkInterval = 0.15f;
@@ -27,6 +32,11 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
 
         renderers = GetComponentsInChildren<Renderer>();
         originalRendererStates = new bool[renderers.Length];
@@ -53,6 +63,8 @@ public class PlayerHealth : MonoBehaviour
             currentHealth = 0;
         }
 
+        PlayHurtSound();
+
         UpdateHeartUI();
 
         if (currentHealth <= 0)
@@ -62,6 +74,23 @@ public class PlayerHealth : MonoBehaviour
         else
         {
             StartCoroutine(InvincibleRoutine());
+        }
+    }
+
+    private void PlayHurtSound()
+    {
+        if (hurtSound == null)
+        {
+            return;
+        }
+
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(hurtSound, hurtSoundVolume);
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(hurtSound, transform.position, hurtSoundVolume);
         }
     }
 

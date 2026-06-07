@@ -8,6 +8,12 @@ public class MummyEnemy : MonoBehaviour
     public float patrolDistance = 10f;
     public float detectionRange = 8f;
 
+    [Header("Enraged Settings")]
+    public float enragedSpeedMultiplier = 2f;
+    public float enragedDetectionMultiplier = 2f;
+    public Animator mummyAnimator;
+    public string enrageTriggerName = "Enrage";
+
     [Header("References")]
     public Transform player;
     public Transform playerStartPoint;
@@ -16,15 +22,34 @@ public class MummyEnemy : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 patrolTarget;
     private bool movingForward = true;
+    private bool isEnraged = false;
+
+    private float originalPatrolSpeed;
+    private float originalChaseSpeed;
+    private float originalDetectionRange;
 
     void Start()
     {
         startPosition = transform.position;
         patrolTarget = startPosition + new Vector3(patrolDistance, 0f, 0f);
+
+        originalPatrolSpeed = patrolSpeed;
+        originalChaseSpeed = chaseSpeed;
+        originalDetectionRange = detectionRange;
+
+        if (mummyAnimator == null)
+        {
+            mummyAnimator = GetComponent<Animator>();
+        }
     }
 
     void Update()
     {
+        if (levelManager != null && levelManager.IsGameOver())
+        {
+            return;
+        }
+
         if (player == null)
         {
             Patrol();
@@ -41,6 +66,28 @@ public class MummyEnemy : MonoBehaviour
         {
             Patrol();
         }
+    }
+
+    public void EnrageMummy()
+    {
+        if (isEnraged)
+        {
+            return;
+        }
+
+        isEnraged = true;
+
+        patrolSpeed = originalPatrolSpeed * enragedSpeedMultiplier;
+        chaseSpeed = originalChaseSpeed * enragedSpeedMultiplier;
+        detectionRange = originalDetectionRange * enragedDetectionMultiplier;
+
+        if (mummyAnimator != null)
+        {
+            mummyAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+            mummyAnimator.SetTrigger(enrageTriggerName);
+        }
+
+        Debug.Log(gameObject.name + " is enraged. Speed and detection range increased.");
     }
 
     void Patrol()
@@ -94,9 +141,14 @@ public class MummyEnemy : MonoBehaviour
 
     private void DamagePlayer(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.transform.root.CompareTag("Player"))
         {
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+
+            if (playerHealth == null)
+            {
+                playerHealth = other.transform.root.GetComponent<PlayerHealth>();
+            }
 
             if (playerHealth != null)
             {
