@@ -1,0 +1,164 @@
+using UnityEngine;
+
+public class MummyEnemy : MonoBehaviour
+{
+    [Header("Movement")]
+    public float patrolSpeed = 1.5f;
+    public float chaseSpeed = 3f;
+    public float patrolDistance = 10f;
+    public float detectionRange = 8f;
+
+    [Header("Enraged Settings")]
+    public float enragedSpeedMultiplier = 2f;
+    public float enragedDetectionMultiplier = 2f;
+    public Animator mummyAnimator;
+    public string enrageTriggerName = "Enrage";
+
+    [Header("References")]
+    public Transform player;
+    public Transform playerStartPoint;
+    public LevelManager levelManager;
+
+    private Vector3 startPosition;
+    private Vector3 patrolTarget;
+    private bool movingForward = true;
+    private bool isEnraged = false;
+
+    private float originalPatrolSpeed;
+    private float originalChaseSpeed;
+    private float originalDetectionRange;
+
+    void Start()
+    {
+        startPosition = transform.position;
+        patrolTarget = startPosition + new Vector3(patrolDistance, 0f, 0f);
+
+        originalPatrolSpeed = patrolSpeed;
+        originalChaseSpeed = chaseSpeed;
+        originalDetectionRange = detectionRange;
+
+        if (mummyAnimator == null)
+        {
+            mummyAnimator = GetComponent<Animator>();
+        }
+    }
+
+    void Update()
+    {
+        if (levelManager != null && levelManager.IsGameOver())
+        {
+            return;
+        }
+
+        if (player == null)
+        {
+            Patrol();
+            return;
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= detectionRange)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            Patrol();
+        }
+    }
+
+    public void EnrageMummy()
+    {
+        if (isEnraged)
+        {
+            return;
+        }
+
+        isEnraged = true;
+
+        patrolSpeed = originalPatrolSpeed * enragedSpeedMultiplier;
+        chaseSpeed = originalChaseSpeed * enragedSpeedMultiplier;
+        detectionRange = originalDetectionRange * enragedDetectionMultiplier;
+
+        if (mummyAnimator != null)
+        {
+            mummyAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+            mummyAnimator.SetTrigger(enrageTriggerName);
+        }
+
+        Debug.Log(gameObject.name + " is enraged. Speed and detection range increased.");
+    }
+
+    void Patrol()
+    {
+        Vector3 currentTarget = movingForward ? patrolTarget : startPosition;
+        MoveToward(currentTarget, patrolSpeed);
+
+        if (Vector3.Distance(transform.position, currentTarget) < 0.2f)
+        {
+            movingForward = !movingForward;
+        }
+    }
+
+    void ChasePlayer()
+    {
+        Vector3 targetPosition = new Vector3(
+            player.position.x,
+            transform.position.y,
+            player.position.z
+        );
+
+        MoveToward(targetPosition, chaseSpeed);
+    }
+
+    void MoveToward(Vector3 target, float speed)
+    {
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            target,
+            speed * Time.deltaTime
+        );
+
+        Vector3 direction = target - transform.position;
+        direction.y = 0f;
+
+        if (direction.magnitude > 0.1f)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        DamagePlayer(other);
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        DamagePlayer(other);
+    }
+
+    private void DamagePlayer(Collider other)
+    {
+        if (other.CompareTag("Player") || other.transform.root.CompareTag("Player"))
+        {
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+
+            if (playerHealth == null)
+            {
+                playerHealth = other.transform.root.GetComponent<PlayerHealth>();
+            }
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(1);
+            }
+
+            if (levelManager != null)
+            {
+                levelManager.PlayerCaughtByMummy();
+            }
+        }
+    }
+}
