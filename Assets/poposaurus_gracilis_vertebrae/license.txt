@@ -1,0 +1,8 @@
+Model Information:
+* title:	Poposaurus gracilis vertebrae
+* source:	https://sketchfab.com/3d-models/poposaurus-gracilis-vertebrae-dd67b3b24a5b4bebaa0ca1b6a1772db8
+* author:	Olof Moleman (https://sketchfab.com/lordtrilobite)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

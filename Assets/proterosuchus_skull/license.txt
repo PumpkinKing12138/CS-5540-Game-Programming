@@ -1,0 +1,11 @@
+Model Information:
+* title:	Proterosuchus skull
+* source:	https://sketchfab.com/3d-models/proterosuchus-skull-ab71965862b541efa177948920ade317
+* author:	Olof Moleman (https://sketchfab.com/lordtrilobite)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Proterosuchus skull" (https://sketchfab.com/3d-models/proterosuchus-skull-ab71965862b541efa177948920ade317) by Olof Moleman (https://sketchfab.com/lordtrilobite) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

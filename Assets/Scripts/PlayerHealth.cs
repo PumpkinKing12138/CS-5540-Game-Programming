@@ -85,6 +85,14 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
 
+        PlayerShield shield = GetComponent<PlayerShield>();
+
+        if (shield != null && shield.UseShield())
+        {
+            StartCoroutine(InvincibleRoutine());
+            return;
+        }
+
         currentHealth -= damage;
 
         if (currentHealth < 0)

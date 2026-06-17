@@ -1,0 +1,326 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        145.88983154296875,
+        247.2775421142578,
+        82.20164489746094
+      ],
+      "min": [
+        -109.51115417480469,
+        -226.89398193359375,
+        -67.8016357421875
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 786384,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9999415278434753,
+        0.9999673962593079,
+        0.9999966621398926
+      ],
+      "min": [
+        -0.9999929666519165,
+        -0.9999263286590576,
+        -0.9999900460243225
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 296007,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 1572768,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        145.1048583984375,
+        249.07948303222656,
+        79.64582824707031
+      ],
+      "min": [
+        -109.38556671142578,
+        -221.16787719726563,
+        -63.05859375
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 2359152,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9999966621398926,
+        0.9999697208404541,
+        0.9999966621398926
+      ],
+      "min": [
+        -0.9999940395355225,
+        -0.999809980392456,
+        -0.9999812841415405
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 1184028,
+      "componentType": 5125,
+      "count": 306294,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3145536,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        145.88511657714844,
+        249.07948303222656,
+        81.33231353759766
+      ],
+      "min": [
+        -109.35755920410156,
+        -222.96209716796875,
+        -67.6461181640625
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3931920,
+      "componentType": 5126,
+      "count": 65532,
+      "max": [
+        0.9999305605888367,
+        0.9999697208404541,
+        0.9999837279319763
+      ],
+      "min": [
+        -0.9999813437461853,
+        -0.9996563196182251,
+        -0.9999900460243225
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 2409204,
+      "componentType": 5125,
+      "count": 277245,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 4718304,
+      "componentType": 5126,
+      "count": 33679,
+      "max": [
+        145.88983154296875,
+        247.7569122314453,
+        82.20164489746094
+      ],
+      "min": [
+        -109.1963119506836,
+        -226.83328247070313,
+        -67.50282287597656
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 5122452,
+      "componentType": 5126,
+      "count": 33679,
+      "max": [
+        0.9999537467956543,
+        0.9997121095657349,
+        0.999949038028717
+      ],
+      "min": [
+        -0.9999929666519165,
+        -0.9999842643737793,
+        -0.9999768733978271
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 3518184,
+      "componentType": 5125,
+      "count": 69006,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Olof Moleman (https://sketchfab.com/lordtrilobite)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/proterosuchus-skull-ab71965862b541efa177948920ade317",
+      "title": "Proterosuchus skull"
+    },
+    "generator": "Sketchfab-15.1.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 3794208,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 5526600,
+      "byteOffset": 3794208,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 9320808,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Scene_-_Root",
+      "pbrMetallicRoughness": {
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.6
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Object_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0
+          },
+          "indices": 2,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_1",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 4,
+            "POSITION": 3
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_2",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 7,
+            "POSITION": 6
+          },
+          "indices": 8,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Object_3",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 10,
+            "POSITION": 9
+          },
+          "indices": 11,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "name": "Proterosuchus_fergusi_skull.stl.cleaner.materialmerger.gles"
+    },
+    {
+      "mesh": 0,
+      "name": "Object_2"
+    },
+    {
+      "mesh": 1,
+      "name": "Object_3"
+    },
+    {
+      "mesh": 2,
+      "name": "Object_4"
+    },
+    {
+      "mesh": 3,
+      "name": "Object_5"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
