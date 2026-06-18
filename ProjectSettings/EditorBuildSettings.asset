@@ -6,7 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: e02cbbc31b775ad408a996d8d49802f1
+  - enabled: 1
+    path: Assets/Scenes/Center.unity
+    guid: 44b5e76e22907004899fb2127d40c29c
+  - enabled: 1
     path: Assets/Scenes/EgyptianWing.unity
     guid: 9ba3487bb680e3c42bbdad2ed5d99d28
+  - enabled: 1
+    path: Assets/Scenes/PaleontologyWing.unity
+    guid: f1e4eb84296dc2d4aaf932fef7a126a7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
