@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RaptorAI : MonoBehaviour
+public class Raptor : MonoBehaviour
 {
     private enum RaptorState
     {
