@@ -291,6 +291,8 @@ public class LevelManager : MonoBehaviour
         }
 
         ShowMessage("Congratulations! You cleared the Egyptian Wing.");
+
+        SceneManager.LoadScene(1);
     }
 
     private void ShowMessage(string message)
