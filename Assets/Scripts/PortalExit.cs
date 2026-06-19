@@ -9,7 +9,7 @@ public class PortalExit : MonoBehaviour
 
     public string completeMessage = "Congratulations! You escaped the Museum After Dark.";
 
-    public bool pauseGameOnComplete = true;
+    public bool pauseGameOnComplete = false;
 
     private bool gameCompleted = false;
 

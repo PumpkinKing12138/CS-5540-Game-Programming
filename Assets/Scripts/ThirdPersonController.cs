@@ -97,6 +97,8 @@ public class ThirdPersonController : MonoBehaviour
         input = new Vector3(moveH, 0f, moveV);
         input.Normalize();
 
+        // Debug.Log("Input" + input);
+
         if (controller.isGrounded)
         {
             moveDir = input;
@@ -155,6 +157,7 @@ public class ThirdPersonController : MonoBehaviour
         Vector3 horizontalMove = new Vector3(moveDir.x, 0f, moveDir.z) * currentSpeed;
         Vector3 verticalMove = new Vector3(0f, moveDir.y, 0f);
 
+        // Debug.Log("Moving" + (horizontalMove + verticalMove));
         controller.Move((horizontalMove + verticalMove) * Time.deltaTime);
 
         UpdateBallTrail();

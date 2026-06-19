@@ -6,6 +6,15 @@ public class SealCollectible : MonoBehaviour
 
     private bool collected = false;
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            collected = true;
+            levelManager.CollectSeal();
+        }
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (collected)

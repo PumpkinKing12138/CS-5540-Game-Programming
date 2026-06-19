@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    public bool needToPlayGame = true;
     public int totalSeals = 3;
 
     public PharaohsHeartGame pharaohsHeartGame;
@@ -90,7 +91,14 @@ public class LevelManager : MonoBehaviour
         }
 
         heartUnlocked = true;
-        ShowMessage("All Seals collected! Break the glass case to reach Pharaoh's Heart.");
+        if (needToPlayGame)
+        {
+            ShowMessage("All Seals collected! Break the glass case to reach Pharaoh's Heart.");
+        }
+        else
+        {
+            ShowMessage("All Seals collected! Collect the key to reach Dino's Heart.");
+        }
     }
 
     public bool IsHeartUnlocked()
@@ -116,6 +124,11 @@ public class LevelManager : MonoBehaviour
     public void ShowNeedGlassMessage()
     {
         ShowMessage("Break the glass case first.");
+    }
+
+    public void ShowNeedKeyMessage()
+    {
+        ShowMessage("Get key first.");
     }
 
     public void ShowHeartDelayMessage()
@@ -168,7 +181,7 @@ public class LevelManager : MonoBehaviour
             portal.SetActive(true);
         }
 
-        ShowMessage("Pharaoh's Heart activated! The exit portal is open.");
+        ShowMessage("Heart activated! The exit portal is open.");
     }
 
     public void StartMummyEscapePhase()
